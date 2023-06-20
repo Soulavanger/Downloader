@@ -1,2 +1,2 @@
-Flask==1.1.4
+Flask
 yt-dlp==2023.3.04
