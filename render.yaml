@@ -1,0 +1,5 @@
+services:
+  - name: <app>
+    env: python
+    startCommand: gunicorn wsgi:app
+    buildCommand: pip install -r requirements.txt
