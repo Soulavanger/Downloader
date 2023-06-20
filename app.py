@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 import subprocess
 import threading
-import os
 
 app = Flask(__name__)
 
@@ -9,11 +8,10 @@ def process_text(text, quality):
     start_index = text.find("https://d1d34p8vz63oiq.cloudfront.net")
     end_index = text.find("/dash/")
     url = text[start_index:end_index]
- 
-    final_url = url.replace("d1d34p8vz63oiq", "d26g5bnklkwsh4")
 
+    final_url = url.replace("d1d34p8vz63oiq", "d26g5bnklkwsh4")
     final_url = final_url.split("dash")[0] + "/hls/{}/main.m3u8".format(quality)
- 
+
     return final_url
 
 @app.route('/', methods=['GET', 'POST'])
@@ -29,8 +27,8 @@ def index():
         # Process the input text
         final_link = process_text(input_text_value, quality)
 
-        # Construct the yt-dlp command with the desired file name and download directory
-        command = f'yt-dlp -f bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best -o "D:/Physicswallah/{file_name}.%(ext)s" --hls-prefer-native -N 8 "{final_link}"'
+        # Construct the yt-dlp command with the desired file name
+        command = f'yt-dlp -f bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best -o "{file_name}.%(ext)s" --hls-prefer-native -N 8 "{final_link}"'
 
         print("Download started!")
 
@@ -63,12 +61,7 @@ def wait_for_download(process):
     # Wait for the process to finish
     process.wait()
 
-    # Check if the downloaded file exists
-    downloaded_files = [f for f in os.listdir("D:/Physicswallah") if os.path.isfile(os.path.join("D:/Physicswallah", f)) and f.endswith(".mp4")]
-    if downloaded_files:
-        print("Download completed!")
-    else:
-        print("Download failed!")
+    print("Download completed!")
 
 if __name__ == '__main__':
     app.run(debug=True)
