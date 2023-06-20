@@ -6,7 +6,7 @@
     "start": "python app.py"
   },
   "dependencies": {
-    "python": "3.10.8",
+    "python": "*",
     "flask": "*"
   }
 }
